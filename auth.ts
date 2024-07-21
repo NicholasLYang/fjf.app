@@ -1,5 +1,6 @@
-import NextAuth from "next-auth";
+import NextAuth, { Session } from "next-auth";
 import GitHub from "@auth/core/providers/github";
+import { SessionWithToken } from "@/lib/types";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [GitHub],
@@ -11,7 +12,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return token;
     },
     async session({ session, token }) {
-      session.accessToken = token.accessToken;
+      let newSession = session as Session as SessionWithToken;
+      newSession.accessToken = token.accessToken as string;
       return session;
     },
   },

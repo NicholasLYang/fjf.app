@@ -1,3 +1,5 @@
+import { Session } from "next-auth";
+
 export interface PullRequest {
   title: string;
   number: number;
@@ -9,4 +11,8 @@ export enum Status {
   Merged = "MERGED",
   Blocked = "BLOCKED",
   Ready = "READY",
+}
+
+export interface SessionWithToken extends Session {
+  accessToken: string;
 }

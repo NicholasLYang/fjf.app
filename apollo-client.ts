@@ -6,6 +6,7 @@ import {
 } from "@apollo/experimental-nextjs-app-support";
 import { setContext } from "@apollo/client/link/context";
 import { auth } from "@/auth";
+import { SessionWithToken } from "@/lib/types";
 
 const httpLink = new HttpLink({
   uri: "https://api.github.com/graphql",
@@ -14,7 +15,7 @@ const httpLink = new HttpLink({
 const authLink = setContext(async (_, { headers }) => {
   // get the authentication token from local storage if it exists
 
-  const session = await auth();
+  const session = (await auth()) as SessionWithToken | null;
   // return the headers to the context so httpLink can read them
   return {
     headers: {
