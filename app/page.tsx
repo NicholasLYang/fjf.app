@@ -29,16 +29,15 @@ const pullRequestsQuery = gql`
 
 export default async function Home() {
   const session = await auth();
-  // const { data } = await query({ query: pullRequestsQuery });
-  // const pullRequests = data.viewer.pullRequests.nodes.map(
-  //   (node: GitHubPullRequest) => ({
-  //     title: node.title,
-  //     number: node.number,
-  //     status: node.state === "MERGED" ? Status.Merged : Status.Ready,
-  //     repository: `${node.repository.owner.login}/${node.repository.name}`,
-  //   }),
-  // );
-  const pullRequests: PullRequest[] = [];
+  const { data } = await query({ query: pullRequestsQuery });
+  const pullRequests = data.viewer.pullRequests.nodes.map(
+    (node: GitHubPullRequest) => ({
+      title: node.title,
+      number: node.number,
+      status: node.state === "MERGED" ? Status.Merged : Status.Ready,
+      repository: `${node.repository.owner.login}/${node.repository.name}`,
+    }),
+  );
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
