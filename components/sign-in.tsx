@@ -1,4 +1,5 @@
 import { signIn } from "@/auth";
+import { Button } from "@/components/ui/button";
 
 export function SignIn() {
   return (
@@ -8,7 +9,7 @@ export function SignIn() {
         await signIn("github");
       }}
     >
-      <button type="submit">Sign in with GitHub</button>
+      <Button type="submit">Sign in with GitHub</Button>
     </form>
   );
 }

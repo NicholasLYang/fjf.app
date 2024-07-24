@@ -1,4 +1,5 @@
 import { signOut } from "@/auth";
+import { Button } from "@/components/ui/button";
 
 export function SignOut() {
   return (
@@ -8,7 +9,7 @@ export function SignOut() {
         await signOut();
       }}
     >
-      <button type="submit">Sign out</button>
+      <Button type="submit">Sign out</Button>
     </form>
   );
 }

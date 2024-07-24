@@ -39,6 +39,8 @@ function getColorFromStatus(status: Status) {
   if (status === Status.Merged) {
     return { light: "bg-purple-400", dark: "bg-purple-500" };
   } else if (status === Status.Blocked) {
+    return { light: "bg-orange-400", dark: "bg-orange-500" };
+  } else if (status === Status.Closed) {
     return { light: "bg-red-400", dark: "bg-red-500" };
   } else {
     return { light: "bg-green-400", dark: "bg-green-500" };
@@ -47,6 +49,7 @@ function getColorFromStatus(status: Status) {
 
 export function PullRequests({ pullRequests }: Props) {
   const [selected, setSelected] = useState(0);
+
   useHotkeys(
     "ArrowDown",
     () => {
@@ -83,6 +86,7 @@ export function PullRequests({ pullRequests }: Props) {
 
           return (
             <div
+              onMouseEnter={() => setSelected(i)}
               key={`${pullRequest.repository}-${pullRequest.number}`}
               className={cn(
                 "flex items-center gap-4 py-2 pl-4",

@@ -11,6 +11,7 @@ export enum Status {
   Merged = "MERGED",
   Blocked = "BLOCKED",
   Ready = "READY",
+  Closed = "CLOSED",
 }
 
 export interface SessionWithToken extends Session {
