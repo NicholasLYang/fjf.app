@@ -4,13 +4,13 @@ import { PullRequest as GitHubPullRequest } from "@/__generated__/graphql";
 import { auth } from "@/auth";
 import { query } from "@/apollo-client";
 import { SignIn } from "@/components/sign-in";
-import gql from "graphql-tag";
 import { SignOut } from "@/components/sign-out";
+import { gql } from "@apollo/client";
 
 const pullRequestsQuery = gql`
   query {
     viewer {
-      pullRequests(first: 10, orderBy: { field: UPDATED_AT, direction: DESC }) {
+      pullRequests(first: 50, orderBy: { field: UPDATED_AT, direction: DESC }) {
         nodes {
           title
           number
@@ -57,8 +57,22 @@ export default async function Home() {
       );
       pullRequestComponent = <PullRequests pullRequests={pullRequests} />;
     } catch (e) {
-      console.error(e);
-      pullRequestComponent = <div>Failed to fetch pull requests</div>;
+      for (const error of e.graphQLErrors) {
+        if (error.extensions.saml_failure) {
+          pullRequestComponent = (
+            <div className="max-w-md">
+              Failed to fetch pull requests due to SAML failure. You may need to
+              authenticate with your organization by visiting{" "}
+              <code>https://github.com/organizations/ORGANIZATION/sso</code>.
+              After authenticating, log out and log back in to this app.
+            </div>
+          );
+          break;
+        }
+      }
+      pullRequestComponent = pullRequestComponent ?? (
+        <div>Failed to fetch pull requests.</div>
+      );
     }
   }
 
